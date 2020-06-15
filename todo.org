@@ -2,3 +2,4 @@
    webserver?)
  - [ ] Integration in any text field with hotkeys?
  - [ ] Integration into vim?
+ - [ ] Tool at add aliases to emojis/values
