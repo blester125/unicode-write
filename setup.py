@@ -42,12 +42,12 @@ setup(
     packages=find_packages(),
     package_data={"unicode_write": ["unicode_write/data/emoji.json"],},
     include_package_data=True,
-    install_requires=["prompt_toolkit", "file_or_name", "pyperclip"],
-    extras_require={"test": ["pytest"],},
+    install_requires=["prompt_toolkit", "file_or_name", "pyperclip", "string_distance"],
+    extras_require={"test": ["pytest"], "remote": ["flask", "requests"]},
     keywords=[],
     ext_modules=ext_modules,
     entry_points={
-        "console_scripts": ["unicode-lookup = unicode_write.driver:main", "ucl = unicode_write.driver:main"],
+        "console_scripts": ["unicode-lookup = unicode_write.driver:main", "ucl = unicode_write.driver:main", "unicode-lookup-remote = unicode_write.client:main"],
     },
     classifiers={
         "Development Status :: 3 - Alpha",

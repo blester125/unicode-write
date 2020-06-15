@@ -7,11 +7,11 @@ from file_or_name import file_or_name
 from unicode_write.data import DATA_DIR
 
 
-def get_unicode_names(start: int = 0, end: int = 0x10FFF + 1) -> List[str]:
-    names = []
+def get_unicode_mapping(start: int = 0, end: int = 0x10FFF + 1) -> Dict[str, str]:
+    names = {}
     for c in range(start, end):
         try:
-            names.append(unicodedata.name(chr(c)))
+            names[unicodedata.name(chr(c))] = hex(c)[2:]
         except ValueError:
             pass
     return names
@@ -24,6 +24,16 @@ def get_emojis(path: str = os.path.join(DATA_DIR, "emoji.json")) -> Dict[str, st
     for emoji in emojis:
         mapping[" ".join(chain([emoji["name"]], emoji.get("aliases", [])))] = emoji["codes"]
     return mapping
+
+
+def merge_mappings(*mappings):
+    revs = [{v: k for k, v in mapp.items()} for mapp in mappings]
+    merged = {}
+    for rev in revs:
+        for v, k in rev.items():
+            if v not in merged:
+                merged[v] = k
+    return {k: v for v, k in merged.items()}
 
 
 class UnicodeWriter:

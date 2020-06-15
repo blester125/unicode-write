@@ -2,12 +2,11 @@ import os
 import pickle
 import argparse
 import unicodedata
-from itertools import chain
 import pyperclip
 from prompt_toolkit import prompt
 from prompt_toolkit.completion import Completer, Completion
-from unicode_write.inverted_index import InvertedIndex, InMemoryInvertedIndex
-from unicode_write.utils import get_unicode_names, stem, get_emojis, UnicodeWriter, get_cache_path
+from unicode_write.inverted_index import InvertedIndex, LevenshteinRankingInvertedIndex
+from unicode_write.utils import get_unicode_mapping, stem, get_emojis, merge_mappings, UnicodeWriter, get_cache_path
 
 
 class SearchCompleter(Completer):
@@ -26,11 +25,12 @@ def main():
         with open(cache, "rb") as f:
             writer, ii = pickle.load(f)
     else:
-        names = get_unicode_names()
+        names = get_unicode_mapping()
         emojis = get_emojis()
-        writer = UnicodeWriter(emojis)
-        ii = InMemoryInvertedIndex(preprocess=stem)
-        ii.index(chain(names, emojis.keys()))
+        mapping = merge_mappings(names, emojis)
+        writer = UnicodeWriter(mapping)
+        ii = LevenshteinRankingInvertedIndex(preprocess=stem)
+        ii.index(mapping.keys())
         with open(cache, "wb") as wf:
             pickle.dump([writer, ii], wf)
 

@@ -1,4 +1,4 @@
- - [ ] Some sort of persistent backend for faster loading (daemon or
+ - [x] Some sort of persistent backend for faster loading (daemon or
    webserver?)
  - [ ] Integration in any text field with hotkeys?
  - [ ] Integration into vim?
