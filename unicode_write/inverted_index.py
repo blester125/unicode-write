@@ -44,11 +44,11 @@ class InvertedIndex:
             # These indices work because we always append but it would be nicer if there
             # were explicit inserts?
             self.documents.append(document)
-            self.index_document(self.tokenize_document(document), idx)
+            self.index_document(document, idx)
             self.document_features.append(self.featurize_document(document))
 
-    def index_document(self, document: List[str], document_index: int) -> None:
-        for token in document:
+    def index_document(self, document: str, document_index: int) -> None:
+        for token in self.tokenize_document(document):
             posting = self.posting_list.setdefault(token, [])
             posting.append(document_index)
 
@@ -106,6 +106,7 @@ class LevenshteinRankingInvertedIndex(InvertedIndex):
 
     def rank(self, query: str, document_ids: List[int]) -> List[int]:
         from string_distance import levenshteins
+
         if not document_ids:
             return document_ids
         documents = [self.document_features[i] for i in document_ids]
