@@ -42,7 +42,7 @@ setup(
     packages=find_packages(),
     package_data={"unicode_write": ["unicode_write/data/emoji.json"],},
     include_package_data=True,
-    install_requires=["prompt_toolkit", "file_or_name", "pyperclip", "string_distance"],
+    install_requires=["prompt_toolkit", "file_or_name", "pyperclip", "string_distance", "inverted-index"],
     extras_require={"test": ["pytest"], "remote": ["flask", "requests"]},
     keywords=[],
     ext_modules=ext_modules,

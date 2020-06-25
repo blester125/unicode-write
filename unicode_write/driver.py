@@ -4,19 +4,9 @@ import argparse
 import unicodedata
 import pyperclip
 from prompt_toolkit import prompt
-from prompt_toolkit.completion import Completer, Completion
-from unicode_write.inverted_index import InvertedIndex, LevenshteinRankingInvertedIndex
+from inverted_index.prompt import SearchCompleter
+from inverted_index.inverted_index import InvertedIndex, LevenshteinRankingInvertedIndex
 from unicode_write.utils import get_unicode_mapping, stem, get_emojis, merge_mappings, UnicodeWriter, get_cache_path
-
-
-class SearchCompleter(Completer):
-    def __init__(self, inverted_index: InvertedIndex):
-        self.inverted_index = inverted_index
-
-    def get_completions(self, document, complete_event):
-        if complete_event.completion_requested:
-            for match in self.inverted_index.search(document.text):
-                yield Completion(match.ljust(document.cursor_position), start_position=-document.cursor_position)
 
 
 def main():
